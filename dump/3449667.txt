@@ -1,0 +1,1 @@
+{"Label:"=>"Parlophone ‎– PCS 7027", "Format:"=>"Vinyl, LP, Album, Reissue", "Country:"=>"UK & Europe", "Released:"=>"1983", "Genre:"=>"Rock", "Style:"=>"Psychedelic Rock"}

@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Starting Spider</h1>
+
+<p>
+  <b>Keys:</b>
+  <%= @keyword.keys %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @keyword.user.name %>
+</p>
+
+
+<% (0 .. 4).each do |i| %>
+<%   cid = @card_ids[i] %>
+<%   curl = @card_urls[cid] %>
+<%   cdet = @card_details[cid] %>
+   <p>[<%= cid %>] <%= link_to curl, curl %> </p> 
+<% end %>
+
+<%= link_to 'Back', keywords_path %>
