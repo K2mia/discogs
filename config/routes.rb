@@ -1,5 +1,24 @@
 Discogs::Application.routes.draw do
 
+  get "users/new"
+
+  root to: "static#home"
+
+  match '/signup', to: 'users#new'
+
+  match '/signin', to: 'sessions#new'
+  match '/signout', to: 'sessions#destroy', via: :delete
+
+  match '/help', to: "static#help"
+
+  match '/about', to: "static#about"
+
+  match '/contact', to: "static#contact"
+
+  #get "static/home"
+  #get "static/help"
+  #get "static/about"
+
   #resources :keywords
   resources :users
 
