@@ -1,15 +1,33 @@
 <% provide( :title, 'Home' ) %>
 
-<div class="center hero-unit">
-  <h1>Album Tracker | Home</h1>
+<% if signed_in? %>
+  <div class="row">
+    <aside class='span4'>
+      <section>
+        <%= render 'shared/user_info' %>
+      </section>
+      <section>
+        <%= render 'shared/keyword_form' %>
+      </section>
+    </aside>
 
-  <h2>
-    To get started please 
-    <%= link_to 'Sign In', '/signin' %>, 
-    or Create your Free Account.
-  </h2> 
+    <div class='span8'>
+      <h3>Album Keyword Searches</h3>
+      <%= render 'shared/feed' %>
+    </div>
+  </div>
+<% else %>
+  <div class="center hero-unit">
+    <h1>Album Tracker | Home</h1>
 
-  <%= link_to 'Create Free Account', signup_path, class:"btn btn-large btn-primary" %>
+    <h2>
+      To get started please 
+      <%= link_to 'Sign In', '/signin' %>, 
+      or Create your Free Account.
+    </h2> 
 
-</div>
+    <%= link_to 'Create Free Account', signup_path, class:"btn btn-large btn-primary" %>
 
+  </div>
+
+<% end %>

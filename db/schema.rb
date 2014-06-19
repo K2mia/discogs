@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140617171656) do
+ActiveRecord::Schema.define(:version => 20140618155354) do
 
   create_table "keywords", :force => true do |t|
     t.string   "keys"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(:version => 20140617171656) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "keywords", ["user_id", "created_at"], :name => "index_keywords_on_user_id_and_created_at"
 
   create_table "users", :force => true do |t|
     t.string   "name"

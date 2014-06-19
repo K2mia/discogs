@@ -11,5 +11,15 @@
       </h1>
     </section>
   </aside>
+  
+  <div class='span8'>
+    <% if @user.keywords.any? %>
+      <h3>Keywords ( <%= @user.keywords.count %> )</h3>
+      <ol>
+        <%= render @keywords %>
+      </ol>
+      <%= will_paginate @keywords %>
+    <% end %>
+  </div>
 </div>
 

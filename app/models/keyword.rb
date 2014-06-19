@@ -10,8 +10,11 @@
 #
 
 class Keyword < ActiveRecord::Base
-  attr_accessible :keys, :user_id
+  attr_accessible :keys
   belongs_to :user
 
+  validates :user_id, presence: true
   validates :keys, :length => { :minimum => 3 }
+
+  default_scope order: 'keywords.created_at DESC'
 end

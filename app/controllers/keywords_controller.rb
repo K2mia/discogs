@@ -1,16 +1,9 @@
 class KeywordsController < ApplicationController
-  # GET /keywords
-  # GET /keywords.json
-  def index
-    @keywords = Keyword.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @keywords }
-    end
-  end
+  before_filter :signed_in_user,	only: [:create, :destroy]
+  before_filter :correct_user,		only: [:spider, :destroy]
 
 
+  # Run spider on keyword search item
   def spider
     @keyword = Keyword.find(params[:id])
 
@@ -110,44 +103,35 @@ class KeywordsController < ApplicationController
   # POST /keywords
   # POST /keywords.json
   def create
-    @keyword = Keyword.new(params[:keyword])
+    @keyword = current_user.keywords.build( params[:keyword] )
 
-    respond_to do |format|
-      if @keyword.save
-        format.html { redirect_to @keyword, notice: 'Keyword was successfully created.' }
-        format.json { render json: @keyword, status: :created, location: @keyword }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @keyword.errors, status: :unprocessable_entity }
-      end
+    if @keyword.save
+      flash.now[:success] = 'New album search keys created'
+      redirect_to root_path
+    else
+      render 'static/home'
     end
   end
 
-  # PUT /keywords/1
-  # PUT /keywords/1.json
-  def update
-    @keyword = Keyword.find(params[:id])
 
-    respond_to do |format|
-      if @keyword.update_attributes(params[:keyword])
-        format.html { redirect_to @keyword, notice: 'Keyword was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @keyword.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /keywords/1
-  # DELETE /keywords/1.json
+  # Destroy the keyword item
   def destroy
-    @keyword = Keyword.find(params[:id])
     @keyword.destroy
-
-    respond_to do |format|
-      format.html { redirect_to keywords_url }
-      format.json { head :no_content }
-    end
+    redirect_to root_path
   end
+
+  private
+
+   # If not signed in redirect to sign in
+   def signed_in_user
+     store_location     # from sessions_helper, store intended location
+     redirect_to signin_path, notice: "Please sign in." unless signed_in?
+   end
+
+   # Make sure we have owner user to be able to take action on their keys
+   def correct_user
+     @keyword = current_user.keywords.find_by_id( params[:id] )
+     redirect_to root_path if @keyword.nil?
+   end
+
 end

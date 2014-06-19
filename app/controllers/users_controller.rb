@@ -34,6 +34,7 @@ class UsersController < ApplicationController
   # Display single user profile
   def show
      @user = User.find( params[:id] )
+     @keywords = @user.keywords.paginate( page: params[:page] )
   end
 
 
@@ -69,21 +70,15 @@ class UsersController < ApplicationController
   # Private method declarations
   private
 
-   # Check for admin user
-   def admin_user
-     redirect_to( root_path ) unless current_user.admin?
-   end
-
-   # If not signed in redirect to sign in
-   def signed_in_user
-     store_location	# from sessions_helper, store intended location
-     redirect_to signin_path, notice: "Please sign in." unless signed_in?
-   end
-
    # Make sure correct user is attempting to edit/update settings
    def correct_user
      @user = User.find( params[:id] )
      redirect_to root_path, notice: "Unauthorized edit/update attempted!" unless current_user?(@user)
+   end
+
+   # Check for admin user
+   def admin_user
+     redirect_to( root_path ) unless current_user.admin?
    end
 
 end
