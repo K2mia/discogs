@@ -1,0 +1,1 @@
+{"Label:"=>"Parlophone ‎– PMCJ 7027", "Format:"=>"Vinyl, LP, Mono, Album", "Country:"=>"South Africa", "Released:"=>"1967", "Genre:"=>"Rock, Pop", "Style:"=>"Psychedelic Rock, Pop Rock"}

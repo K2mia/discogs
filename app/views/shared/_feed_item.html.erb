@@ -4,7 +4,16 @@
   <span class='user'>
     <%= link_to feed_item.user.name, feed_item.user %>
   </span>
-  <span class='keys_content'><%= feed_item.keys %></span>
+  <span class='keys_content'>
+    <%= feed_item.keys %>
+    <% if current_user?( feed_item.user ) %>
+      - 
+      <%= link_to 'spider discogs', :controller => 'keywords', 
+                                    :action => 'spider', 
+                                    :id => feed_item.id  %>
+    <% end %>
+  </span>
+
   <span class='timestamp'>
     Posted <%= time_ago_in_words( feed_item.created_at ) %>
   </span>

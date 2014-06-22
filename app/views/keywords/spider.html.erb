@@ -17,7 +17,12 @@
 <%   cid = @card_ids[i] %>
 <%   curl = @card_urls[cid] %>
 <%   cdet = @card_details[cid] %>
-   <p>[<%= cid %>] <%= link_to curl, curl %> </p> 
+   <p>
+     [<%= cid %>] <%= link_to curl, curl %> 
+     <ul>
+       <%= cdet %> 
+     </ul>
+   </p> 
 <% end %>
 
-<%= link_to 'Back', keywords_path %>
+<%= link_to 'Back', root_path %>

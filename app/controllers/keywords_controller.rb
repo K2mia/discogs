@@ -15,7 +15,12 @@ class KeywordsController < ApplicationController
     #agent.user_agent_alias = 'Mac OS X Mozilla'
 
     discogs_base = "http://www.discogs.com"
-    url = "#{discogs_base}/search/?q=Beatles+Sgt+Peppers+LP" 
+    #url = "#{discogs_base}/search/?q=Beatles+Sgt+Peppers+LP" 
+    url = "#{discogs_base}/search/?q=#{CGI.escape @keyword.keys}" 
+
+    #logger.info( "url=(#{url})" )
+    #return
+
     page = agent.get url
 
     @card_ids = Array.new 
@@ -41,7 +46,7 @@ class KeywordsController < ApplicationController
       curl = @card_urls[cid]
       page = agent.get curl
       cdet = page.body
-      @card_details[cid] = cdet
+      #@card_details[cid] = cdet
 
       pcont = page.at("#page_content").inner_html
       heads = page.search( ".head" ) 
@@ -55,6 +60,8 @@ class KeywordsController < ApplicationController
          @card[h] = c 
          #file.write ("[#{i}] (#{h}) cont=(#{c})\n" )
       end
+
+      @card_details[cid] = @card.inspect
 
       file = File.open( "/home/andrew/rails_apps/discogs/dump/#{cid}.txt", 'wb' )
       file.write ( @card.inspect )

@@ -2,7 +2,7 @@ Discogs::Application.routes.draw do
 
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
-  resources :keywords, only: [:spider, :create, :destroy]
+  resources :keywords, only: [:create, :destroy]
 
   #get "users/new"
 
@@ -24,11 +24,11 @@ Discogs::Application.routes.draw do
 
   #resources :keywords
 
-  #resources :keywords do
-  #  collection do
-  #    get 'spider'
-  #  end
-  #end
+  resources :keywords do
+    collection do
+      get 'spider'
+    end
+  end
 
 
   # The priority is based upon order of creation:
