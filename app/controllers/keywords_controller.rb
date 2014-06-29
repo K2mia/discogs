@@ -33,8 +33,10 @@ class KeywordsController < ApplicationController
     cards.each do |card| 
       if ( /data\-object\-id="(\d+)"/.match( card ) ) 
          cid = $1
-         if ( /href="(\S+\/#{$1})"/.match( card ) )
+         if ( /href="(\S+\/release\/#{$1})"/.match( card ) )
             curl = $1
+            #logger.info( "curl=(#{curl})" )
+
             @card_ids.push( cid )
             @card_urls[cid] = "#{discogs_base}#{curl}"
          end
@@ -52,6 +54,9 @@ class KeywordsController < ApplicationController
       heads = page.search( ".head" ) 
       contents = page.search( ".content" ) 
 
+      #logger.info( "heads=(#{heads.inspect})" )
+      #logger.info( "conts=(#{contents.inspect})" )
+
       (0..5).each do |i|
          h = heads[i].inner_html
          c = contents[i].text
@@ -63,7 +68,8 @@ class KeywordsController < ApplicationController
 
       @card_details[cid] = @card.inspect
 
-      file = File.open( "/home/andrew/rails_apps/discogs/dump/#{cid}.txt", 'wb' )
+      root_dir = Rails.root.to_s
+      file = File.open( "#{root_dir}/dump/#{cid}.txt", 'wb' )
       file.write ( @card.inspect )
       file.close 
 
