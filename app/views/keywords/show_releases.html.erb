@@ -1,0 +1,22 @@
+<% provide( :title, 'Search Results' ) %>
+
+<p id="notice"><%= notice %></p>
+
+<h1>Discogs search results</h1>
+
+<div class="row">
+   <aside class='span4'>
+      <%= link_to gravatar_for(@keyword.user), root_path %>
+      <span class='user'>
+         <%= link_to @keyword.user.name, root_path %>
+      </span>
+      <br />
+      <b>Keys:</b>
+      <%= @keyword.keys %>
+   </aside>
+
+   <div class='span8'>
+     <%= render 'shared/releases' %>
+   </div>
+</div>
+

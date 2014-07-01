@@ -7,20 +7,33 @@
   <span class='keys_content'>
     <%= feed_item.keys %>
     <% if current_user?( feed_item.user ) %>
-      - 
-      <%= link_to 'spider discogs', :controller => 'keywords', 
-                                    :action => 'spider', 
-                                    :id => feed_item.id  %>
+      &nbsp; [
+      <% if feed_item.releases.count == 0 %>
+         <%= link_to 'Start Discogs Spider', :controller => 'keywords', 
+                                       :action => 'spider', 
+                                       :id => feed_item.id  %>
+         &nbsp; - &nbsp;
+      <% end %>
+
+      <%= link_to 'Delete Keyword', feed_item, method: :delete,
+                                   confirm: 'Delete keyword?',
+                                   title: "confirm delete: #{feed_item.keys}" %>
+      ]
+    <% end %>
+  </span>
+
+  <span class='dsearchcount'>
+    <% if feed_item.releases.count > 0 %>
+       <%= link_to feed_item.releases.count.to_s + ' search results from Discogs', action: 'show_releases', controller: 'keywords', id: feed_item %>
+    <% else %>
+       <%= feed_item.releases.count.to_s + ' search results from Discogs' %>
     <% end %>
   </span>
 
   <span class='timestamp'>
-    Posted <%= time_ago_in_words( feed_item.created_at ) %>
+    Posted <%= time_ago_in_words( feed_item.created_at ) + ' ago.' %>
   </span>
 
   <% if current_user?( feed_item.user ) %>
-    <%= link_to 'delete', feed_item, method: :delete,
-                                     confirm: 'Delete keyword?',
-                                     title: "confirm delete: #{feed_item.keys}" %>
   <% end %>
 </li>

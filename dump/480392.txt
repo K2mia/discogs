@@ -1,0 +1,1 @@
+{"label"=>"MCA Records ‎– MCABD-37217", "format"=>"CD, Album", "country"=>"Canada", "released"=>"20 Jul 1994", "genre"=>"Rock", "style"=>"Hard Rock, Classic Rock"}

@@ -1,0 +1,1 @@
+{"label"=>"MIDO Enterprize ‎– ZS 9105", "format"=>"CD, Compilation, Unofficial Release", "country"=>"Japan", "released"=>"1989", "genre"=>"Rock, Pop", "style"=>" "}

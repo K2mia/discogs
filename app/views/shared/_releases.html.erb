@@ -1,0 +1,9 @@
+
+<% if @releases.any? %>
+  <ol class='keywords'>
+    <%= render partial: 'shared/releases_item', collection: @releases %>
+  </ol>
+  <%= will_paginate @releases %>
+<% else %>
+  <h4 style='margin-top:20px;'>No search results found</h4>
+<% end %>

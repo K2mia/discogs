@@ -1,1 +1,1 @@
-{"Label:"=>"Bell Song Record ‎– SWL-1123", "Format:"=>"Vinyl, LP, Album, Stereo, Unofficial Release, Red", "Country:"=>"Taiwan", "Released:"=>"Dec 1967", "Genre:"=>"Rock", "Style:"=>"Rock & Roll, Pop Rock, Psychedelic Rock"}
+{"label"=>"Bell Song Record ‎– SWL-1123", "format"=>"Vinyl, LP, Album, Stereo, Unofficial Release, Red", "country"=>"Taiwan", "released"=>"Dec 1967", "genre"=>"Rock", "style"=>"Rock & Roll, Pop Rock, Psychedelic Rock"}

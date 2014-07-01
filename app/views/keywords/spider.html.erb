@@ -9,20 +9,21 @@
 
 <p>
   <b>User:</b>
-  <%= @keyword.user.name %>
+  <%= link_to @keyword.user.name, root_path %>
 </p>
 
 
-<% (0 .. 4).each do |i| %>
-<%   cid = @card_ids[i] %>
-<%   curl = @card_urls[cid] %>
-<%   cdet = @card_details[cid] %>
-   <p>
-     [<%= cid %>] <%= link_to curl, curl %> 
-     <ul>
-       <%= cdet %> 
-     </ul>
-   </p> 
+<% if @card_ids && @card_ids.any? %>
+  <% (0 .. 4).each do |i| %>
+  <%    cid = @card_ids[i] %>
+  <%    curl = @card_urls[cid] %>
+  <%    cdet = @card_details[cid] %>
+    <p>
+      [<%= cid %>] <%= link_to curl, curl %> 
+      <ul>
+        <%= raw(cdet) %> 
+      </ul>
+    </p> 
+  <% end %>
 <% end %>
 
-<%= link_to 'Back', root_path %>

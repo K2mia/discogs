@@ -1,1 +1,1 @@
-{"Label:"=>"Grateful Dead Records ‎– GD-01-8T", "Format:"=>"8-Track Cartridge", "Country:"=>"US", "Released:"=>"Jul 1973", "Genre:"=>"Rock", "Style:"=>"Country Rock"}
+{"label"=>"Grateful Dead Records ‎– GD-01-8T", "format"=>"8-Track Cartridge", "country"=>"US", "released"=>"Jul 1973", "genre"=>"Rock", "style"=>"Country Rock"}

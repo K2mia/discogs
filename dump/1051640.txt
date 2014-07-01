@@ -1,0 +1,1 @@
+{"label"=>"MCA Records ‎– MCAC-1691", "format"=>"Cassette, Album", "country"=>"US", "released"=>"1980", "genre"=>"Rock", "style"=>"Classic Rock"}

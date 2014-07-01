@@ -1,1 +1,1 @@
-{"Label:"=>"Grateful Dead Records ‎– GD-01", "Format:"=>"Vinyl, LP, Album", "Country:"=>"US", "Released:"=>"Jul 1973", "Genre:"=>"Rock", "Style:"=>"Country Rock"}
+{"label"=>"Grateful Dead Records ‎– GD-01", "format"=>"Vinyl, LP, Album", "country"=>"US", "released"=>"Jul 1973", "genre"=>"Rock", "style"=>"Country Rock"}

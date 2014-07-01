@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140618155354) do
+ActiveRecord::Schema.define(:version => 20140630161628) do
 
   create_table "keywords", :force => true do |t|
     t.string   "keys"
@@ -21,6 +21,24 @@ ActiveRecord::Schema.define(:version => 20140618155354) do
   end
 
   add_index "keywords", ["user_id", "created_at"], :name => "index_keywords_on_user_id_and_created_at"
+
+  create_table "releases", :force => true do |t|
+    t.integer  "keyword_id"
+    t.string   "label"
+    t.string   "format"
+    t.string   "country"
+    t.string   "released"
+    t.string   "genre"
+    t.string   "style"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "releases", ["format"], :name => "index_releases_on_format"
+  add_index "releases", ["genre"], :name => "index_releases_on_genre"
+  add_index "releases", ["keyword_id"], :name => "index_releases_on_keyword_id"
+  add_index "releases", ["label"], :name => "index_releases_on_label"
+  add_index "releases", ["style"], :name => "index_releases_on_style"
 
   create_table "users", :force => true do |t|
     t.string   "name"

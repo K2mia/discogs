@@ -207,9 +207,20 @@ input, textarea, select, .uneditable-input{
   color: $lightgray;
 }
 
+.dsearchcount{
+  display: block;
+  color: #333333;
+}
+
 .gravatar{
   float: left;
   margin-right: 10px;
+}
+
+.gravatar_mini{
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 20px;
 }
 
 

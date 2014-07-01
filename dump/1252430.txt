@@ -1,0 +1,1 @@
+{"label"=>"MCA Records ‎– MCA-37217", "format"=>"Vinyl, LP, Album, Reissue", "country"=>"US", "released"=>"1981", "genre"=>"Rock", "style"=>"Classic Rock"}

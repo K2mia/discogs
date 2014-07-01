@@ -1,1 +1,1 @@
-{"Label:"=>"Grateful Dead Records ‎– GD 49301,             Grateful Dead Records ‎– GD-01", "Format:"=>"Vinyl, LP, Album", "Country:"=>"Germany", "Released:"=>"1973", "Genre:"=>"Rock", "Style:"=>"Country Rock"}
+{"label"=>"Grateful Dead Records ‎– GD 49301,             Grateful Dead Records ‎– GD-01", "format"=>"Vinyl, LP, Album", "country"=>"Germany", "released"=>"1973", "genre"=>"Rock", "style"=>"Country Rock"}

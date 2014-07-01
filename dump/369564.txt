@@ -1,0 +1,1 @@
+{"label"=>"Harvest ‎– TC-SHVL 795", "format"=>"Cassette, Album", "country"=>"UK", "released"=>" ", "genre"=>"Rock", "style"=>"Alternative Rock, Psychedelic Rock"}

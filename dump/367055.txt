@@ -1,0 +1,1 @@
+{"label"=>"EMI United Kingdom ‎– 7243 8 29749 2 5,             EMI United Kingdom ‎– CDEMD 1061", "format"=>"CD, Album, Remastered, Reissue", "country"=>"UK & Europe", "released"=>"1994", "genre"=>"Rock", "style"=>"Blues Rock, Prog Rock, Psychedelic Rock, Art Rock"}

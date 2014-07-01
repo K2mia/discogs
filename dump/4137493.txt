@@ -1,0 +1,1 @@
+{"label"=>"Harvest ‎– SHVL 795", "format"=>"Vinyl, LP, Album, Stereo, Gatefold, Gramophone Co. Credit on Rim", "country"=>"UK", "released"=>"1971", "genre"=>"Rock", "style"=>"Psychedelic Rock, Prog Rock, Ethereal"}

@@ -1,0 +1,1 @@
+{"label"=>"MCA Records ‎– MCAC-37217", "format"=>"Cassette, Album", "country"=>"Canada", "released"=>"1986", "genre"=>"Rock", "style"=>"Rock & Roll, Art Rock, Hard Rock"}

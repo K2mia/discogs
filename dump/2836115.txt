@@ -1,1 +1,1 @@
-{"Label:"=>"Apple Records ‎– 1C 198-53 170", "Format:"=>"Vinyl, LP, Album, Reissue", "Country:"=>"Germany", "Released:"=>" ", "Genre:"=>"Rock", "Style:"=>"Rock & Roll, Pop Rock, Psychedelic Rock"}
+{"label"=>"Apple Records ‎– 1C 198-53 170", "format"=>"Vinyl, LP, Album, Reissue", "country"=>"Germany", "released"=>" ", "genre"=>"Rock", "style"=>"Rock & Roll, Pop Rock, Psychedelic Rock"}

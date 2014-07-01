@@ -12,6 +12,7 @@
 class Keyword < ActiveRecord::Base
   attr_accessible :keys
   belongs_to :user
+  has_many :releases
 
   validates :user_id, presence: true
   validates :keys, :length => { :minimum => 3 }

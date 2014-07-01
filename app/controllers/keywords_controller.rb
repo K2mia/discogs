@@ -1,6 +1,13 @@
 class KeywordsController < ApplicationController
   before_filter :signed_in_user,	only: [:create, :destroy]
-  before_filter :correct_user,		only: [:spider, :destroy]
+  before_filter :correct_user,		only: [:show_releases, :spider, :destroy]
+
+
+  # Display Discogs search results for a keyword
+  def show_releases
+    @keyword = Keyword.find(params[:id])
+    @releases = @keyword.releases.paginate( page: params[:page] )
+  end
 
 
   # Run spider on keyword search item
@@ -22,6 +29,13 @@ class KeywordsController < ApplicationController
     #return
 
     page = agent.get url
+
+    # Check for short-circuit condition with no results
+    if ( /find anything in the Discogs database for/.match( page.body ) )
+       flash.now[:error] = 'No matches found at Discogs'
+       return
+    end
+
 
     @card_ids = Array.new 
     @card_urls = {}
@@ -57,8 +71,12 @@ class KeywordsController < ApplicationController
       #logger.info( "heads=(#{heads.inspect})" )
       #logger.info( "conts=(#{contents.inspect})" )
 
+      ok_fields = ['label', 'format', 'country', 'released', 'genre', 'style']
+
       (0..5).each do |i|
-         h = heads[i].inner_html
+         h = heads[i].inner_html.downcase.slice(0 .. -2)
+         next unless ok_fields.include?( h )
+
          c = contents[i].text
          c.delete!( "\n" )
          c.strip!
@@ -66,12 +84,43 @@ class KeywordsController < ApplicationController
          #file.write ("[#{i}] (#{h}) cont=(#{c})\n" )
       end
 
-      @card_details[cid] = @card.inspect
 
-      root_dir = Rails.root.to_s
-      file = File.open( "#{root_dir}/dump/#{cid}.txt", 'wb' )
-      file.write ( @card.inspect )
-      file.close 
+      @card_details[cid] = <<"CARD"
+<table>
+<tr>
+<td width=80>Label:</td>
+<td>#{@card['label']}</td>
+</tr><tr>
+<td>Format:</td>
+<td>#{@card['format']}</td>
+</tr><tr>
+<td>Country:</td>
+<td>#{@card['country']}</td>
+</tr><tr>
+<td>Released:</td>
+<td>#{@card['released']}</td>
+</tr><tr>
+<td>Genre:</td>
+<td>#{@card['genre']}</td>
+</tr><tr>
+<td>Style:</td>
+<td>#{@card['style']}</td>
+</tr>
+</table>
+CARD
+
+      @release = @keyword.releases.build( @card )
+
+      if @release.save
+        flash.now[:success] = 'Saved release info'
+      else
+        flash.now[:error] = 'Error saving release info'
+      end
+
+      #root_dir = Rails.root.to_s
+      #file = File.open( "#{root_dir}/dump/#{cid}.txt", 'wb' )
+      #file.write ( @card.inspect )
+      #file.close 
 
     end
 
@@ -129,6 +178,10 @@ class KeywordsController < ApplicationController
 
   # Destroy the keyword item
   def destroy
+    @keyword.releases.each do |rel|
+       rel.destroy
+    end
+
     @keyword.destroy
     redirect_to root_path
   end

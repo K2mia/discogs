@@ -4,4 +4,6 @@
     <%= render partial: 'shared/feed_item', collection: @feed_items %>
   </ol>
   <%= will_paginate @feed_items %>
+<% else %>
+  <h4 style='margin-top:20px;'>No keyword searches found</h4>
 <% end %>

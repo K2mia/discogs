@@ -1,0 +1,1 @@
+{"label"=>"MCA Records ‎– MCAD-37217", "format"=>"CD, Album", "country"=>"US", "released"=>"17 Dec 1984", "genre"=>"Rock", "style"=>"Classic Rock"}

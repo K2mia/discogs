@@ -1,0 +1,1 @@
+{"label"=>"Polydor ‎– 813 651-2", "format"=>"CD, Album", "country"=>"UK", "released"=>"1983", "genre"=>"Rock", "style"=>"Hard Rock, Classic Rock"}
