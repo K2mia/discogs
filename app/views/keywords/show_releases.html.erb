@@ -7,12 +7,25 @@
 <div class="row">
    <aside class='span4'>
       <%= link_to gravatar_for(@keyword.user), root_path %>
-      <span class='user'>
-         <%= link_to @keyword.user.name, root_path %>
-      </span>
+      <b><%= @keyword.keys %></b>
+
       <br />
-      <b>Keys:</b>
-      <%= @keyword.keys %>
+
+      <% if @pcount > 0 %>
+        (<%= @pcount.to_s %>) listings from 
+        <%= number_to_currency(@low_price) %> - 
+        <%= number_to_currency(@high_price) %>
+        <br />
+        (<%= @pcount2.to_s %>) ended from 
+        <%= number_to_currency(@low_price2) %> - 
+        <%= number_to_currency(@high_price2) %>
+        <br />
+
+        <%= link_to 'Re-scrape Ebay Listings', controller: 'keywords', action: 'spider_ebay', id: @keyword %>
+      <% else %>
+        <%= link_to 'Scrape Ebay Listings', controller: 'keywords', action: 'spider_ebay', id: @keyword %>
+      <% end %>
+ 
    </aside>
 
    <div class='span8'>

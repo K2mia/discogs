@@ -27,6 +27,7 @@ Discogs::Application.routes.draw do
   resources :keywords do
     collection do
       get 'spider'
+      get 'spider_ebay'
       get 'show_releases'
     end
   end

@@ -1,6 +1,10 @@
 
 <li>
-  <span class='keys_content'><%= keyword.keys %></span>
+  <span class='keys_content'>
+    <%= link_to keyword.keys, controller: 'keywords', 
+                              action: 'show_releases',
+                              id: keyword %>
+  </span>
   <span class='timestamp'>
     Created <%= time_ago_in_words( keyword.created_at ) %> ago.
   </span>

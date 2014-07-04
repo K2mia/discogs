@@ -28,6 +28,8 @@
     <% else %>
        <%= feed_item.releases.count.to_s + ' search results from Discogs' %>
     <% end %>
+    /
+    <%= feed_item.prices.count.to_s + ' prices from Ebay listings' %>
   </span>
 
   <span class='timestamp'>

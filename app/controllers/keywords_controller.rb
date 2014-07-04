@@ -1,16 +1,104 @@
 class KeywordsController < ApplicationController
   before_filter :signed_in_user,	only: [:create, :destroy]
-  before_filter :correct_user,		only: [:show_releases, :spider, :destroy]
+  before_filter :correct_user,		only: [:show_releases, :spider_ebay, :spider, :destroy]
 
 
   # Display Discogs search results for a keyword
   def show_releases
     @keyword = Keyword.find(params[:id])
     @releases = @keyword.releases.paginate( page: params[:page] )
+    prices = @keyword.prices
+
+    @pcount = Price.where( ended:false ).count	# Count for active listings
+    @low_price = 10000		# Low price for active listing
+    @high_price = 0		# High price for active listing
+
+    @pcount2 = Price.where( ended:true ).count	# Count for ended listings
+    @low_price2 = 10000		# Low price for ended listings
+    @high_price2 = 0		# High price for ended listings
+
+    prices.each do |prc|
+       res = /\$([0-9.,]+)/.match( prc.price )
+       pnum = $1.to_f 
+       if ( prc.ended )
+         @high_price2 = pnum if ( pnum > @high_price2 )
+         @low_price2 = pnum if ( pnum < @low_price2 )
+       else
+         @high_price = pnum if ( pnum > @high_price )
+         @low_price = pnum if ( pnum < @low_price )
+       end
+    end
   end
 
 
-  # Run spider on keyword search item
+  # Run Ebay spider on keyword search item
+  def spider_ebay
+    @keyword = Keyword.find(params[:id])
+
+    uastr = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.7"
+
+    require 'mechanize'
+    agent = Mechanize.new
+    agent.user_agent = uastr 
+
+    ebay_base = "http://www.ebay.com/sch/i.html"
+
+    # First search active listings
+    url = "#{ebay_base}?_nkw=#{CGI.escape @keyword.keys}&_ipg=200" 
+
+    #logger.info( "url=(#{url})" )
+    #return
+
+    page = agent.get url
+ 
+    @debug = ""
+
+    page.search("tbody.lyr").each do |tbody_el|
+      tbody = tbody_el.inner_html
+      res = /<td class="pic p225 lt img" iid="([0-9]+)"/.match( tbody )
+      id = $1
+      res = /<span style="color:#[0-9]*">(\$[0-9\.,]+)<\/span>/.match( tbody )
+      price = $1
+
+      if ( !price.nil? )      
+        @price = @keyword.prices.build( { ebay_id: id, ended: false, price: price } )
+        @price.save
+
+        #@debug += "id=(#{id}) price=(#{price})<br />\n"
+        #@debug += "price=(#{@price.inspect})\n\n"
+      end
+
+    end
+
+    # Next search only sold listings
+    url2 = "#{ebay_base}?_nkw=#{CGI.escape @keyword.keys}&&_in_kw=1&_ex_kw=&_sacat=0&LH_Sold=1&_udlo=&_udhi=&_samilow=&_samihi=&_sadis=10&_fpos=&_fsct=&LH_SALE_CURRENCY=0&_sop=12&_dmd=1&_ipg=200&LH_Complete=1" 
+
+    page2 = agent.get url2
+
+    page2.search("tbody.lyr").each do |tbody_el|
+      tbody = tbody_el.inner_html
+      res = /<td class="pic p225 lt img" iid="([0-9]+)"/.match( tbody )
+      id = $1
+      res = /<span style="color:#[0-9]*">(\$[0-9\.,]+)<\/span>/.match( tbody )
+      price = $1
+
+
+      if ( !price.nil? )
+        @price = @keyword.prices.build( { ebay_id: id, ended: true, price: price } )
+        @price.save
+
+        #@debug += "id=(#{id}) price=(#{price})<br />\n"
+        #@debug += "price=(#{@price.inspect})\n\n"
+      end
+    end
+
+    show_releases
+    render action: 'show_releases', id: @keyword, success: 'Ebay listings scraped'
+
+  end
+
+
+  # Run Discogs spider on keyword search item
   def spider
     @keyword = Keyword.find(params[:id])
 
@@ -125,7 +213,7 @@ CARD
     end
 
 
-    logger.info ("LOGGER keyword=" + @keyword.inspect )
+    #logger.info ("LOGGER keyword=" + @keyword.inspect )
     #logger.info ("LOGGER page=" + page.body )
 
     respond_to do |format|
@@ -180,6 +268,9 @@ CARD
   def destroy
     @keyword.releases.each do |rel|
        rel.destroy
+    end
+    @keyword.prices.each do |prc|
+       prc.destroy
     end
 
     @keyword.destroy
