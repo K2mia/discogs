@@ -9,13 +9,13 @@ class KeywordsController < ApplicationController
     @releases = @keyword.releases.paginate( page: params[:page] )
     prices = @keyword.prices
 
-    @pcount = Price.where( ended:false ).count	# Count for active listings
-    @low_price = 10000		# Low price for active listing
-    @high_price = 0		# High price for active listing
+    @pcount = Price.where( keyword_id: @keyword.id, ended:false ).count	# Count for active listings
+    @low_price = @pcount > 0 ? 10000 : 0 # Low price for active listing
+    @high_price = 0			 # High price for active listing
 
-    @pcount2 = Price.where( ended:true ).count	# Count for ended listings
-    @low_price2 = 10000		# Low price for ended listings
-    @high_price2 = 0		# High price for ended listings
+    @pcount2 = Price.where( keyword_id: @keyword.id, ended:true ).count	# Count for ended listings
+    @low_price2 = @pcount2 > 0 ? 10000 : 0 # Low price for ended listings
+    @high_price2 = 0			   # High price for ended listings
 
     prices.each do |prc|
        res = /\$([0-9.,]+)/.match( prc.price )
@@ -53,7 +53,15 @@ class KeywordsController < ApplicationController
  
     @debug = ""
 
+    res = /<span class="rcnt">(\d+)<\/span>/.match( page.body )
+    num_listings = $1.to_i
+
+    count = 0
+
     page.search("tbody.lyr").each do |tbody_el|
+      count += 1
+      break if ( count > num_listings )
+
       tbody = tbody_el.inner_html
       res = /<td class="pic p225 lt img" iid="([0-9]+)"/.match( tbody )
       id = $1
@@ -75,7 +83,14 @@ class KeywordsController < ApplicationController
 
     page2 = agent.get url2
 
+    res = /<span class="rcnt">(\d+)<\/span>/.match( page2.body )
+    num_listings2 = $1.to_i
+    count2 = 0
+
     page2.search("tbody.lyr").each do |tbody_el|
+      count2 += 1
+      break if ( count2 > num_listings2 )
+
       tbody = tbody_el.inner_html
       res = /<td class="pic p225 lt img" iid="([0-9]+)"/.match( tbody )
       id = $1
@@ -91,6 +106,11 @@ class KeywordsController < ApplicationController
         #@debug += "price=(#{@price.inspect})\n\n"
       end
     end
+
+    root_dir = Rails.root.to_s
+    file = File.open( "#{root_dir}/dump/ebay_dump.txt", 'wb' )
+    file.write ( "url=(#{url}) num_listings=(#{num_listings.to_s}) num_listings2=(#{num_listings2.to_s})" )
+    file.close 
 
     show_releases
     render action: 'show_releases', id: @keyword, success: 'Ebay listings scraped'
@@ -212,14 +232,17 @@ CARD
 
     end
 
+    show_releases
+    render action: 'show_releases', id: @keyword, success: 'Ebay listings scraped'
 
+  
     #logger.info ("LOGGER keyword=" + @keyword.inspect )
     #logger.info ("LOGGER page=" + page.body )
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @keyword }
-    end
+    #respond_to do |format|
+    #  format.html # show.html.erb
+    #  format.json { render json: @keyword }
+    #end
   end
 
 
