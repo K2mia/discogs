@@ -1,1 +1,1 @@
-url=(http://www.ebay.com/sch/i.html?_nkw=The+Who+Behind+Blue+Eyes+LP&_ipg=200) num_listings=(2) num_listings2=(1)
+url=(http://www.ebay.com/sch/i.html?_nkw=The+Beatles+She+Loves+You+LP&_ipg=200) num_listings=(10) num_listings2=(5)

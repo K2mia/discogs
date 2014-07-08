@@ -7,7 +7,10 @@
   <% if current_user?( releases_item.keyword.user ) %>
 <table>
 <tr>
-<td width=80>Label:</td>
+<td width=80>Title:</td>
+<td><%= raw(releases_item.title) %></td>
+</tr><tr>
+<td >Label:</td>
 <td><%= releases_item.label %></td>
 </tr><tr>
 <td>Format:</td>

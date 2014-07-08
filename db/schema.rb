@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140703160448) do
+ActiveRecord::Schema.define(:version => 20140707183344) do
 
   create_table "keywords", :force => true do |t|
     t.string   "keys"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(:version => 20140703160448) do
     t.string   "style"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "title"
   end
 
   add_index "releases", ["format"], :name => "index_releases_on_format"

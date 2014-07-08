@@ -68,6 +68,8 @@ class KeywordsController < ApplicationController
       res = /<span style="color:#[0-9]*">(\$[0-9\.,]+)<\/span>/.match( tbody )
       price = $1
 
+      next if ( Price.exists?( :ebay_id => id ) )
+
       if ( !price.nil? )      
         @price = @keyword.prices.build( { ebay_id: id, ended: false, price: price } )
         @price.save
@@ -97,6 +99,7 @@ class KeywordsController < ApplicationController
       res = /<span style="color:#[0-9]*">(\$[0-9\.,]+)<\/span>/.match( tbody )
       price = $1
 
+      next if ( Price.exists?( :ebay_id => id ) )
 
       if ( !price.nil? )
         @price = @keyword.prices.build( { ebay_id: id, ended: true, price: price } )
@@ -107,10 +110,10 @@ class KeywordsController < ApplicationController
       end
     end
 
-    root_dir = Rails.root.to_s
-    file = File.open( "#{root_dir}/dump/ebay_dump.txt", 'wb' )
-    file.write ( "url=(#{url}) num_listings=(#{num_listings.to_s}) num_listings2=(#{num_listings2.to_s})" )
-    file.close 
+    #root_dir = Rails.root.to_s
+    #file = File.open( "#{root_dir}/dump/ebay_dump.txt", 'wb' )
+    #file.write ( "url=(#{url}) num_listings=(#{num_listings.to_s}) num_listings2=(#{num_listings2.to_s})" )
+    #file.close 
 
     show_releases
     render action: 'show_releases', id: @keyword, success: 'Ebay listings scraped'
@@ -146,6 +149,7 @@ class KeywordsController < ApplicationController
 
 
     @card_ids = Array.new 
+    @card_titles = Array.new
     @card_urls = {}
     @card_details = {}
     @card = {}
@@ -153,6 +157,24 @@ class KeywordsController < ApplicationController
     cards = page.body.split( /"card card_normal float_fix/ )
 
     cards.each do |card| 
+      card2 = card.gsub( /[\r\n]/m, '' )
+      ndoc = Nokogiri::HTML( card2 )
+      h4 = ndoc.css('h4').first
+
+      if ( !h4.nil? )
+        ptitle = h4.inner_html
+        ptitle.sub!( /<\/?h4>/, '' )
+        ptitle.strip!
+        ptitle.gsub!( /href="/, "href=\"http://www.discogs.com" )
+        @card_titles.push( ptitle )
+
+        #root_dir = Rails.root.to_s
+        #file = File.open( "#{root_dir}/dump/card2_dump.txt", 'wb' )
+        #file.write ( ptitle )
+        #file.close 
+      end
+
+
       if ( /data\-object\-id="(\d+)"/.match( card ) ) 
          cid = $1
          if ( /href="(\S+\/release\/#{$1})"/.match( card ) )
@@ -167,12 +189,12 @@ class KeywordsController < ApplicationController
 
     (0 .. 4).each do |i|
       cid = @card_ids[i]
+      ctitle = @card_titles[i]
       curl = @card_urls[cid]
       page = agent.get curl
       cdet = page.body
       #@card_details[cid] = cdet
 
-      pcont = page.at("#page_content").inner_html
       heads = page.search( ".head" ) 
       contents = page.search( ".content" ) 
 
@@ -180,6 +202,8 @@ class KeywordsController < ApplicationController
       #logger.info( "conts=(#{contents.inspect})" )
 
       ok_fields = ['label', 'format', 'country', 'released', 'genre', 'style']
+
+      @card['title'] = ctitle
 
       (0..5).each do |i|
          h = heads[i].inner_html.downcase.slice(0 .. -2)
